@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: redis
+  labels:
+    app: liveblog
+  namespace: liveblog
+spec:
+  ports:
+    - name: redis
+      port: 6379
+  selector:
+    role: redis
