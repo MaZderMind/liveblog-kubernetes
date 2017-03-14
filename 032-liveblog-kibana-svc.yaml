@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: kibana
+  labels:
+    app: liveblog
+  namespace: liveblog
+spec:
+  ports:
+    - name: kibana-web
+      port: 5601
+  selector:
+    role: kibana
