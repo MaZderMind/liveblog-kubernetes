@@ -24,6 +24,7 @@ spec:
       containers:
       - name: liveblog-mongodb
         image: mongo:2.6
+        command: ['bash', '/entrypoint.sh', '--smallfiles']
         ports:
         - containerPort: 27017
           name: mongodb
