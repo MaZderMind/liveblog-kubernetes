@@ -1,0 +1,36 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: liveblog
+    role: mongodb
+  name: liveblog-mongodb
+  namespace: liveblog
+spec:
+  replicas: 1
+  revisionHistoryLimit: 0
+  selector:
+    matchLabels:
+      app: liveblog
+      role: mongodb
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: liveblog
+        role: mongodb
+    spec:
+      containers:
+      - name: liveblog-mongodb
+        image: mongo:2.6
+        ports:
+        - containerPort: 27017
+          name: mongodb
+        volumeMounts:
+        - mountPath: /data/db
+          name: liveblog-mongodb
+      volumes:
+      - name: liveblog-mongodb
+        persistentVolumeClaim:
+          claimName: liveblog-mongodb

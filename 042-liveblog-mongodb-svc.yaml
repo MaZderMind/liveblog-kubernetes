@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: mongodb
+  labels:
+    app: liveblog
+  namespace: liveblog
+spec:
+  ports:
+    - name: mongodb
+      port: 27017
+  selector:
+    role: mongodb
