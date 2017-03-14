@@ -1,0 +1,30 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: liveblog
+    role: logstash
+  name: liveblog-logstash
+  namespace: liveblog
+spec:
+  replicas: 1
+  revisionHistoryLimit: 0
+  selector:
+    matchLabels:
+      app: liveblog
+      role: logstash
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: liveblog
+        role: logstash
+    spec:
+      containers:
+      - name: liveblog-logstash
+        image: mazdermind/liveblog-logstash:latest
+        command: ['logstash', '--verbose', '-f', '/usr/share/logstash/logstash.conf']
+        ports:
+        - containerPort: 5555
+          name: syslog

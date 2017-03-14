@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: syslog
+  labels:
+    app: liveblog
+  namespace: liveblog
+spec:
+  ports:
+    - name: syslog
+      port: 5555
+  selector:
+    role: syslog
