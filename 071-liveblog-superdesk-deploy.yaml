@@ -1,0 +1,114 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: liveblog
+    role: superdesk
+  name: liveblog-superdesk
+  namespace: liveblog
+spec:
+  replicas: 1
+  revisionHistoryLimit: 0
+  selector:
+    matchLabels:
+      app: liveblog
+      role: superdesk
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: liveblog
+        role: superdesk
+    spec:
+      containers:
+      - name: liveblog-superdesk
+        image: sourcefabric/superdesk:liveblogmaster
+        env:
+          - name:  MONGO_URI
+            value: mongodb://mongodb/liveblog
+
+          - name:  PUBLICAPI_MONGO_URI
+            value: mongodb://mongodb/liveblog
+
+          - name:  LEGAL_ARCHIVE_URI
+            value: mongodb://mongodb/liveblog
+
+          - name:  ELASTICSEARCH_URL
+            value: http://elastic:9200
+
+          - name:  ELASTICSEARCH_INDEX
+            value: 
+
+          - name:  CELERY_BROKER_URL
+            value: redis://redis:6379/1
+
+          - name:  REDIS_URL
+            value: redis://redis:6379/1
+
+          - name:  LOG_SERVER_ADDRESS
+            value: logstash
+
+          - name:  LOG_SERVER_PORT
+            value: "5555"
+
+          - name:  AMAZON_ACCESS_KEY_ID
+            valueFrom:
+              secretKeyRef:
+                name: liveblog-secrets
+                key: amazon-access-key-id
+
+          - name:  AMAZON_CONTAINER_NAME
+            value: liveblog.mazdermind.de
+
+          - name:  AMAZON_REGION
+            value: eu-central-1
+
+          - name:  AMAZON_SECRET_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: liveblog-secrets
+                key: amazon-secret-access-key
+
+          - name:  S3_THEMES_PREFIX
+            value: the-theme
+
+          - name:  MAIL_SERVER
+            value: postfix
+
+          - name:  MAIL_PORT
+            value: "25"
+
+          - name:  MAIL_USE_TLS
+            value: "false"
+
+          - name:  MAIL_USE_SSL
+            value: "false"
+
+          - name:  MAIL_USERNAME
+            value: user
+
+          - name:  MAIL_PASSWORD
+            value: pwd
+
+          - name:  SUPERDESK_URL
+            value: https://liveblog.apps.seibert-media.net/api
+
+          - name:  SUPERDESK_WS_URL
+            value: wss://liveblog.apps.seibert-media.net/ws
+
+          - name:  SUPERDESK_CLIENT_URL
+            value: https://liveblog.apps.seibert-media.net/
+
+          - name:  SUPERDESK_TESTING
+            value: "false"
+
+          - name:  EMBEDLY_KEY
+            valueFrom:
+              secretKeyRef:
+                name: liveblog-secrets
+                key: embedly-key
+
+        ports:
+        - containerPort: 80
+          name: superdesk-web

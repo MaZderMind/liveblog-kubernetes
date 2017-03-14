@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: superdesk
+  labels:
+    app: liveblog
+  namespace: liveblog
+spec:
+  ports:
+    - name: superdesk-web
+      port: 80
+  selector:
+    role: superdesk
