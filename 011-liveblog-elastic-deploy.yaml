@@ -8,6 +8,7 @@ metadata:
   namespace: liveblog
 spec:
   replicas: 1
+  revisionHistoryLimit: 0
   selector:
     matchLabels:
       app: liveblog
@@ -23,24 +24,14 @@ spec:
       containers:
       - name: liveblog-elastic
         image: elasticsearch:1.5
-        readinessProbe:
-
         ports:
         - containerPort: 9200
           name: elastic
           protocol: TCP
-        resources:
-          limits:
-            cpu: 500m
-            memory: 250Mi
-          requests:
-            cpu: 10m
-            memory: 100Mi
         volumeMounts:
         - mountPath: /usr/share/elasticsearch/data
           name: liveblog-elastic
       volumes:
       - name: liveblog-elastic
-        nfs:
-          path: '/nfs/liveblog-elastic'
-          server: 10.15.49.88
+        persistentVolumeClaim:
+          claimName: liveblog-elastic
