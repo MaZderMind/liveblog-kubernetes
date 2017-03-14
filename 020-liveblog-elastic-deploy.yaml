@@ -1,0 +1,46 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: liveblog
+    role: elastic
+  name: liveblog-elastic
+  namespace: liveblog
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: liveblog
+      role: elastic
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: liveblog
+        role: elastic
+    spec:
+      containers:
+      - name: liveblog-elastic
+        image: elasticsearch:1.5
+        readinessProbe:
+
+        ports:
+        - containerPort: 9200
+          name: elastic
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 500m
+            memory: 250Mi
+          requests:
+            cpu: 10m
+            memory: 100Mi
+        volumeMounts:
+        - mountPath: /usr/share/elasticsearch/data
+          name: liveblog-elastic
+      volumes:
+      - name: liveblog-elastic
+        nfs:
+          path: '/nfs/liveblog-elastic'
+          server: 10.15.49.88

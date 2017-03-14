@@ -1,0 +1,14 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: elastic
+  labels:
+    app: liveblog
+  namespace: liveblog
+spec:
+  ports:
+    - name: elastic
+      port: 9200
+      protocol: TCP
+  selector:
+    role: elastic
