@@ -52,23 +52,34 @@ spec:
           - name:  LOG_SERVER_PORT
             value: "5555"
 
+
+          - name:  AMAZON_ENDPOINT_URL
+            value: http://s3:9000/
+
+          - name:  AMAZON_CDN_DOMAIN
+            value: https://s3.liveblog.apps.seibert-media.net/
+
+          - name:  AMAZON_CONTAINER_NAME
+            value: liveblog
+
+          - name:  AMAZON_REGION
+            value: eu-central-1
+
+          - name:  AMAZON_URL_STYLE
+            value: path
+
           - name:  AMAZON_ACCESS_KEY_ID
             valueFrom:
               secretKeyRef:
                 name: liveblog-secrets
                 key: amazon-access-key-id
 
-          - name:  AMAZON_CONTAINER_NAME
-            value: liveblog.mazdermind.de
-
-          - name:  AMAZON_REGION
-            value: eu-central-1
-
           - name:  AMAZON_SECRET_ACCESS_KEY
             valueFrom:
               secretKeyRef:
                 name: liveblog-secrets
                 key: amazon-secret-access-key
+
 
           - name:  S3_THEMES_PREFIX
             value: the-theme
