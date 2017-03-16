@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    traefik.frontend.rule.type: pathprefix
+  labels:
+    app: liveblog
+    role: s3
+  name: liveblog-s3
+  namespace: liveblog
+spec:
+  rules:
+  - host: s3.liveblog.apps.seibert-media.net
+    http:
+      paths:
+      - backend:
+          serviceName: s3
+          servicePort: s3-web
+        path: /

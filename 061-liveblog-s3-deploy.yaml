@@ -1,0 +1,49 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: liveblog
+    role: s3
+  name: liveblog-s3
+  namespace: liveblog
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: liveblog
+      role: s3
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: liveblog
+        role: s3
+    spec:
+      containers:
+      - name: liveblog-s3
+        image: minio/minio
+        command: ["minio"]
+        args: ['server', '/data']
+        env:
+          - name: MINIO_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: liveblog-secrets
+                key: amazon-access-key-id
+          - name: MINIO_SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: liveblog-secrets
+                key: amazon-secret-access-key
+        ports:
+        - containerPort: 9000
+          name: s3-web
+        volumeMounts:
+        - mountPath: /data
+          name: liveblog-s3
+      volumes:
+      - name: liveblog-s3
+        persistentVolumeClaim:
+          claimName: liveblog-s3

@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: s3
+  labels:
+    app: liveblog
+  namespace: liveblog
+spec:
+  ports:
+    - name: s3-web
+      port: 9000
+  selector:
+    role: s3
