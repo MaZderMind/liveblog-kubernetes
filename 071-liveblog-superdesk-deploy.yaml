@@ -56,8 +56,14 @@ spec:
           - name:  AMAZON_ENDPOINT_URL
             value: http://s3:9000/
 
-          - name:  AMAZON_CDN_DOMAIN
-            value: https://s3.liveblog.apps.seibert-media.net/
+          - name:  AMAZON_S3_USE_HTTPS
+            value: "true"
+
+          - name:  AMAZON_PROXY_SERVER
+            value: s3.liveblog.apps.seibert-media.net/liveblog
+
+          - name:  AMAZON_URL_GENERATOR
+            value: partial
 
           - name:  AMAZON_CONTAINER_NAME
             value: liveblog
