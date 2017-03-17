@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
       - name: liveblog-superdesk
-        image: sourcefabric/superdesk:liveblogmaster
+        image: liveblog-superdesk=mazdermind/liveblog-custom-s3:0.4
         env:
           - name:  MONGO_URI
             value: mongodb://mongodb/liveblog
