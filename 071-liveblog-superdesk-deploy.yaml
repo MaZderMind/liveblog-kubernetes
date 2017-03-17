@@ -63,7 +63,7 @@ spec:
             value: liveblog
 
           - name:  AMAZON_REGION
-            value: eu-central-1
+            value: us-east-1
 
           - name:  AMAZON_URL_STYLE
             value: path
