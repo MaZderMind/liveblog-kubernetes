@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
       - name: liveblog-superdesk
-        image: mazdermind/liveblog-custom-s3:0.4
+        image: mazdermind/liveblog-custom-s3:0.6
         env:
           - name:  MONGO_URI
             value: mongodb://mongodb/liveblog
@@ -91,22 +91,28 @@ spec:
             value: the-theme
 
           - name:  MAIL_SERVER
-            value: postfix
+            value: smtp.gmail.com
 
           - name:  MAIL_PORT
-            value: "25"
+            value: "465"
 
           - name:  MAIL_USE_TLS
             value: "false"
 
           - name:  MAIL_USE_SSL
-            value: "false"
+            value: "true"
 
           - name:  MAIL_USERNAME
-            value: user
+            valueFrom:
+              secretKeyRef:
+                name: liveblog-secrets
+                key: gmail-username
 
           - name:  MAIL_PASSWORD
-            value: pwd
+            valueFrom:
+              secretKeyRef:
+                name: liveblog-secrets
+                key: gmail-password
 
           - name:  SUPERDESK_URL
             value: https://liveblog.apps.seibert-media.net/api
@@ -115,7 +121,7 @@ spec:
             value: wss://liveblog.apps.seibert-media.net/ws
 
           - name:  SUPERDESK_CLIENT_URL
-            value: https://liveblog.apps.seibert-media.net/
+            value: https://liveblog.apps.seibert-media.net
 
           - name:  SUPERDESK_TESTING
             value: "false"
